@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobSearch Pro - Find Your Dream Job</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        nav ul li a i {
+            margin-right: 5px;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #0da271;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Search Section */
+        .search-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: -2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            padding: 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            align-self: flex-end;
+            padding: 0.8rem 1.5rem;
+        }
+
+        /* Job Listings */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+            color: var(--dark);
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .job-listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .job-card {
+            background-color: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .company {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .company i {
+            margin-right: 5px;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .meta-item i {
+            margin-right: 5px;
+        }
+
+        .job-body {
+            padding: 1.5rem;
+        }
+
+        .job-description {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .job-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tag {
+            background-color: #e0f2fe;
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .salary {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Categories */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .category-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            color: var(--secondary);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .author-info h4 {
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #334155;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin: 1rem 0;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .auth-buttons {
+                margin-top: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-search"></i>
+                    <span>JobSearch Pro</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#jobs"><i class="fas fa-search"></i> Find Jobs</a></li>
+                        <li><a href="#companies"><i class="fas fa-building"></i> Companies</a></li>
+                        <li><a href="#resources"><i class="fas fa-book"></i> Resources</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn btn-outline" id="loginBtn">Login</button>
+                    <button class="btn btn-primary" id="registerBtn">Register</button>
+                </div>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">User</span>
+                    <button class="btn btn-outline" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Find Your Dream Career Today</h1>
+                <p>Connect with top employers and discover opportunities that match your skills and career goals</p>
+                <a href="#jobs" class="btn btn-primary">Browse Jobs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="container">
+        <div class="search-container">
+            <form class="search-form" id="searchForm">
+                <div class="form-group">
+                    <label for="keywords">Job Title or Keywords</label>
+                    <input type="text" id="keywords" class="form-control" placeholder="e.g. Web Developer">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" class="form-control" placeholder="e.g. Mumbai">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" class="form-control">
+                        <option value="">All Categories</option>
+                        <option value="technology">Technology</option>
+                        <option value="finance">Finance</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="education">Education</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary search-btn">Search Jobs</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Job Listings -->
+    <section class="section" id="jobs">
+        <div class="container">
+            <h2 class="section-title">Featured Job Opportunities</h2>
+            <div class="job-listings" id="jobListings">
+                <!-- Job listings will be populated by JavaScript -->
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-outline" id="loadMoreJobs">Load More Jobs</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="section" id="categories">
+        <div class="container">
+            <h2 class="section-title">Browse by Industry</h2>
+            <div class="categories">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Technology</h3>
+                    <p>1,245 Jobs Available</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Finance</h3>
+                    <p>890 Jobs Available</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Healthcare</h3>
+                    <p>756 Jobs Available</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Education</h3>
+                    <p>543 Jobs Available</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" style="background-color: #f8fafc;">
+        <div class="container">
+            <h2 class="section-title">Success Stories</h2>
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"JobSearch Pro helped me find my dream job in just two weeks! The platform is user-friendly and the job recommendations were spot on."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RS</div>
+                        <div class="author-info">
+                            <h4>Rahul Sharma</h4>
+                            <p>Software Engineer at TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a recruiter, JobSearch Pro has been invaluable for finding qualified candidates. The filtering options save me so much time!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">PM</div>
+                        <div class="author-info">
+                            <h4>Priya Mehta</h4>
+                            <p>HR Manager at Global Solutions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>JobSearch Pro</h3>
+                    <p>Connecting talented job seekers with top employers since 2023.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#jobs">Find Jobs</a></li>
+                        <li><a href="#companies">Companies</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Employers</h3>
+                    <ul>
+                        <li><a href="#">Post a Job</a></li>
+                        <li><a href="#">Browse Candidates</a></li>
+                        <li><a href="#">Pricing Plans</a></li>
+                        <li><a href="#">Employer Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Business Ave, Mumbai</li>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-envelope"></i> info@jobsearchpro.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 JobSearch Pro Career Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to Your Account</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div id="loginAlert"></div>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create an Account</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="registerForm">
+                <div id="registerAlert"></div>
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerUserType">I am a</label>
+                    <select id="registerUserType" class="form-control" required>
+                        <option value="">Select User Type</option>
+                        <option value="jobseeker">Job Seeker</option>
+                        <option value="employer">Employer</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simple Backend Simulation
+        class JobSearchApp {
+            constructor() {
+                this.users = JSON.parse(localStorage.getItem('jobsearch_users')) || [];
+                this.jobs = JSON.parse(localStorage.getItem('jobsearch_jobs')) || this.getDefaultJobs();
+                this.applications = JSON.parse(localStorage.getItem('jobsearch_applications')) || [];
+                this.currentUser = JSON.parse(localStorage.getItem('jobsearch_currentUser')) || null;
+                
+                // Create demo users if none exist
+                if (this.users.length === 0) {
+                    this.createDemoUsers();
+                }
+            }
+
+            getDefaultJobs() {
+                return [
+                    // TECHNOLOGY JOBS (12 jobs)
+                    {
+                        id: 1,
+                        title: "Frontend Developer",
+                        company: "TechCorp Solutions",
+                        location: "Mumbai",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹8-12 LPA",
+                        description: "We are looking for a skilled Frontend Developer to join our team. You will be responsible for building responsive web applications using modern JavaScript frameworks.",
+                        skills: ["HTML", "CSS", "JavaScript", "React", "Vue.js"],
+                        category: "technology"
+                    },
+                    {
+                        id: 2,
+                        title: "UX/UI Designer",
+                        company: "Creative Minds",
+                        location: "Bangalore",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹10-15 LPA",
+                        description: "Join our design team to create beautiful and intuitive user interfaces for our digital products. You'll work closely with product managers and developers.",
+                        skills: ["Figma", "Sketch", "Adobe XD", "User Research", "Prototyping"],
+                        category: "technology"
+                    },
+                    {
+                        id: 3,
+                        title: "Data Scientist",
+                        company: "Analytics Pro",
+                        location: "Hyderabad",
+                        type: "Full-time",
+                        experience: "4-6 years",
+                        salary: "₹12-18 LPA",
+                        description: "We're seeking a Data Scientist to analyze complex datasets and build predictive models. Experience with machine learning algorithms is required.",
+                        skills: ["Python", "R", "SQL", "Machine Learning", "Statistics"],
+                        category: "technology"
+                    },
+                    {
+                        id: 4,
+                        title: "Backend Developer",
+                        company: "ServerStack",
+                        location: "Gurgaon",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹10-16 LPA",
+                        description: "We need a Backend Developer to build scalable server-side applications. You'll work with Node.js, Python, and various databases.",
+                        skills: ["Node.js", "Python", "MongoDB", "PostgreSQL", "REST APIs"],
+                        category: "technology"
+                    },
+                    {
+                        id: 5,
+                        title: "Mobile App Developer",
+                        company: "AppWorks",
+                        location: "Pune",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹9-14 LPA",
+                        description: "Develop cutting-edge mobile applications for iOS and Android platforms. Experience with React Native or Flutter is preferred.",
+                        skills: ["React Native", "Flutter", "iOS", "Android", "REST APIs"],
+                        category: "technology"
+                    },
+                    {
+                        id: 6,
+                        title: "DevOps Engineer",
+                        company: "CloudTech",
+                        location: "Chennai",
+                        type: "Full-time",
+                        experience: "4-6 years",
+                        salary: "₹12-18 LPA",
+                        description: "Implement and maintain CI/CD pipelines, manage cloud infrastructure, and ensure system reliability and scalability.",
+                        skills: ["AWS", "Docker", "Kubernetes", "Jenkins", "Terraform"],
+                        category: "technology"
+                    },
+                    {
+                        id: 7,
+                        title: "Full Stack Developer",
+                        company: "WebSolutions Inc",
+                        location: "Kolkata",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹10-16 LPA",
+                        description: "Looking for a Full Stack Developer proficient in both frontend and backend technologies to work on end-to-end web applications.",
+                        skills: ["JavaScript", "React", "Node.js", "MongoDB", "Express"],
+                        category: "technology"
+                    },
+                    {
+                        id: 8,
+                        title: "Software Engineer",
+                        company: "TechInnovate",
+                        location: "Ahmedabad",
+                        type: "Full-time",
+                        experience: "2-5 years",
+                        salary: "₹8-13 LPA",
+                        description: "Join our engineering team to design, develop and maintain software solutions for various client projects.",
+                        skills: ["Java", "Spring Boot", "MySQL", "Microservices", "Git"],
+                        category: "technology"
+                    },
+                    {
+                        id: 9,
+                        title: "AI/ML Engineer",
+                        company: "IntelliSystems",
+                        location: "Noida",
+                        type: "Full-time",
+                        experience: "4-7 years",
+                        salary: "₹15-22 LPA",
+                        description: "Work on cutting-edge artificial intelligence and machine learning projects. Experience with deep learning frameworks required.",
+                        skills: ["Python", "TensorFlow", "PyTorch", "Deep Learning", "NLP"],
+                        category: "technology"
+                    },
+                    {
+                        id: 10,
+                        title: "Cloud Architect",
+                        company: "CloudFirst",
+                        location: "Bengaluru",
+                        type: "Full-time",
+                        experience: "6-9 years",
+                        salary: "₹18-28 LPA",
+                        description: "Design and implement cloud solutions for enterprise clients. Extensive experience with cloud platforms required.",
+                        skills: ["AWS", "Azure", "GCP", "Cloud Security", "Architecture"],
+                        category: "technology"
+                    },
+                    {
+                        id: 11,
+                        title: "QA Automation Engineer",
+                        company: "QualityAssure",
+                        location: "Hyderabad",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹9-15 LPA",
+                        description: "Develop and maintain automated test frameworks and ensure software quality across multiple platforms.",
+                        skills: ["Selenium", "Java", "TestNG", "JUnit", "API Testing"],
+                        category: "technology"
+                    },
+                    {
+                        id: 12,
+                        title: "Product Manager",
+                        company: "ProductLabs",
+                        location: "Mumbai",
+                        type: "Full-time",
+                        experience: "5-8 years",
+                        salary: "₹16-25 LPA",
+                        description: "Lead product development from conception to launch. Work with cross-functional teams to deliver exceptional user experiences.",
+                        skills: ["Product Strategy", "Agile", "User Stories", "Market Research", "Roadmapping"],
+                        category: "technology"
+                    },
+
+                    // FINANCE JOBS (10 jobs)
+                    {
+                        id: 13,
+                        title: "Financial Analyst",
+                        company: "Global Finance Inc",
+                        location: "Delhi",
+                        type: "Full-time",
+                        experience: "2-5 years",
+                        salary: "₹7-11 LPA",
+                        description: "Looking for a Financial Analyst to support our investment team with financial modeling and market analysis.",
+                        skills: ["Financial Modeling", "Excel", "SQL", "Analytics", "Valuation"],
+                        category: "finance"
+                    },
+                    {
+                        id: 14,
+                        title: "Investment Banker",
+                        company: "Capital Partners",
+                        location: "Mumbai",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹15-25 LPA",
+                        description: "Join our investment banking team to work on mergers, acquisitions, and capital raising transactions.",
+                        skills: ["Financial Analysis", "Valuation", "Deal Execution", "PPT", "Excel"],
+                        category: "finance"
+                    },
+                    {
+                        id: 15,
+                        title: "Accountant",
+                        company: "Accurate Books",
+                        location: "Chennai",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹5-8 LPA",
+                        description: "Manage financial records, prepare tax returns, and ensure compliance with accounting standards.",
+                        skills: ["Tally", "GST", "Accounting", "Taxation", "Auditing"],
+                        category: "finance"
+                    },
+                    {
+                        id: 16,
+                        title: "Risk Analyst",
+                        company: "SecureFinance",
+                        location: "Gurgaon",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹9-14 LPA",
+                        description: "Analyze financial risks and develop strategies to mitigate potential losses for the organization.",
+                        skills: ["Risk Management", "Statistics", "SQL", "Python", "Regulatory Compliance"],
+                        category: "finance"
+                    },
+                    {
+                        id: 17,
+                        title: "Wealth Manager",
+                        company: "WealthBuilders",
+                        location: "Bangalore",
+                        type: "Full-time",
+                        experience: "4-7 years",
+                        salary: "₹12-20 LPA",
+                        description: "Provide financial advice and investment management services to high-net-worth individuals.",
+                        skills: ["Financial Planning", "Investment Strategies", "Client Relations", "Portfolio Management"],
+                        category: "finance"
+                    },
+                    {
+                        id: 18,
+                        title: "Tax Consultant",
+                        company: "TaxExperts",
+                        location: "Pune",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹8-13 LPA",
+                        description: "Provide tax planning and compliance services to corporate and individual clients.",
+                        skills: ["Tax Planning", "GST", "Income Tax", "Compliance", "Audit"],
+                        category: "finance"
+                    },
+                    {
+                        id: 19,
+                        title: "Credit Analyst",
+                        company: "CreditSolutions",
+                        location: "Kolkata",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹6-10 LPA",
+                        description: "Assess creditworthiness of loan applicants and make recommendations for credit approval.",
+                        skills: ["Credit Analysis", "Financial Statements", "Risk Assessment", "Banking"],
+                        category: "finance"
+                    },
+                    {
+                        id: 20,
+                        title: "Financial Planner",
+                        company: "FutureSecure",
+                        location: "Hyderabad",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹7-12 LPA",
+                        description: "Help clients achieve their financial goals through comprehensive financial planning.",
+                        skills: ["Financial Planning", "Retirement Planning", "Insurance", "Investment"],
+                        category: "finance"
+                    },
+                    {
+                        id: 21,
+                        title: "Audit Manager",
+                        company: "AuditAssure",
+                        location: "Delhi",
+                        type: "Full-time",
+                        experience: "5-8 years",
+                        salary: "₹12-18 LPA",
+                        description: "Lead audit teams and ensure compliance with accounting standards and regulations.",
+                        skills: ["Auditing", "CA", "Internal Controls", "Compliance", "Team Management"],
+                        category: "finance"
+                    },
+                    {
+                        id: 22,
+                        title: "Treasury Analyst",
+                        company: "CashFlow Corp",
+                        location: "Mumbai",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹9-14 LPA",
+                        description: "Manage company's cash flow, investments, and financial risk management activities.",
+                        skills: ["Cash Management", "Forecasting", "Risk Management", "Banking Relations"],
+                        category: "finance"
+                    },
+
+                    // HEALTHCARE JOBS (10 jobs)
+                    {
+                        id: 23,
+                        title: "Registered Nurse",
+                        company: "City General Hospital",
+                        location: "Chennai",
+                        type: "Full-time",
+                        experience: "1-3 years",
+                        salary: "₹4-7 LPA",
+                        description: "Join our healthcare team as a Registered Nurse. Provide quality patient care in a fast-paced hospital environment.",
+                        skills: ["Patient Care", "Medical Records", "Emergency Response", "Medication Administration"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 24,
+                        title: "General Physician",
+                        company: "HealthFirst Clinic",
+                        location: "Mumbai",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹12-20 LPA",
+                        description: "Provide comprehensive medical care to patients in our multi-specialty clinic.",
+                        skills: ["Diagnosis", "Treatment Planning", "Patient Care", "Medical Knowledge"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 25,
+                        title: "Pharmacist",
+                        company: "MediCare Pharmacy",
+                        location: "Bangalore",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹5-9 LPA",
+                        description: "Dispense medications and provide pharmaceutical care to patients in our pharmacy chain.",
+                        skills: ["Medication Dispensing", "Drug Interactions", "Inventory Management", "Patient Counseling"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 26,
+                        title: "Medical Lab Technician",
+                        company: "Diagnostic Labs",
+                        location: "Delhi",
+                        type: "Full-time",
+                        experience: "1-3 years",
+                        salary: "₹3-6 LPA",
+                        description: "Perform laboratory tests and analyses to help in diagnosis and treatment of diseases.",
+                        skills: ["Lab Testing", "Sample Collection", "Equipment Operation", "Quality Control"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 27,
+                        title: "Physiotherapist",
+                        company: "Rehab Center",
+                        location: "Pune",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹5-9 LPA",
+                        description: "Help patients recover from injuries and improve mobility through physical therapy.",
+                        skills: ["Physical Therapy", "Rehabilitation", "Exercise Prescription", "Patient Assessment"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 28,
+                        title: "Dental Surgeon",
+                        company: "Dental Care Clinic",
+                        location: "Hyderabad",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹10-18 LPA",
+                        description: "Provide comprehensive dental care including surgeries, implants, and routine dental procedures.",
+                        skills: ["Dental Surgery", "Oral Health", "Patient Care", "Dental Procedures"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 29,
+                        title: "Medical Officer",
+                        company: "Rural Health Center",
+                        location: "Lucknow",
+                        type: "Full-time",
+                        experience: "2-5 years",
+                        salary: "₹8-12 LPA",
+                        description: "Provide medical services in rural healthcare settings and community health programs.",
+                        skills: ["Primary Care", "Public Health", "Emergency Medicine", "Community Health"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 30,
+                        title: "Hospital Administrator",
+                        company: "Metro Hospitals",
+                        location: "Kolkata",
+                        type: "Full-time",
+                        experience: "5-8 years",
+                        salary: "₹12-20 LPA",
+                        description: "Manage hospital operations, staff, and ensure efficient delivery of healthcare services.",
+                        skills: ["Hospital Management", "Operations", "Staff Management", "Healthcare Administration"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 31,
+                        title: "Radiologist",
+                        company: "Imaging Center",
+                        location: "Ahmedabad",
+                        type: "Full-time",
+                        experience: "4-7 years",
+                        salary: "₹15-25 LPA",
+                        description: "Interpret medical images and provide diagnostic reports for patient treatment.",
+                        skills: ["Radiology", "Medical Imaging", "Diagnosis", "CT/MRI Interpretation"],
+                        category: "healthcare"
+                    },
+                    {
+                        id: 32,
+                        title: "Nutritionist",
+                        company: "Wellness Center",
+                        location: "Chandigarh",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹5-8 LPA",
+                        description: "Provide dietary advice and nutrition plans to promote healthy living and manage medical conditions.",
+                        skills: ["Nutrition Planning", "Diet Counseling", "Health Assessment", "Meal Planning"],
+                        category: "healthcare"
+                    },
+
+                    // EDUCATION JOBS (10 jobs)
+                    {
+                        id: 33,
+                        title: "High School Teacher",
+                        company: "Metro Public Schools",
+                        location: "Pune",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹5-8 LPA",
+                        description: "We're looking for passionate educators to join our high school teaching staff. Multiple subject areas available.",
+                        skills: ["Teaching", "Curriculum Development", "Classroom Management", "Student Assessment"],
+                        category: "education"
+                    },
+                    {
+                        id: 34,
+                        title: "College Professor",
+                        company: "State University",
+                        location: "Delhi",
+                        type: "Full-time",
+                        experience: "5-8 years",
+                        salary: "₹12-20 LPA",
+                        description: "Join our faculty to teach undergraduate and graduate courses in your specialized field.",
+                        skills: ["Teaching", "Research", "Curriculum Design", "Student Mentoring"],
+                        category: "education"
+                    },
+                    {
+                        id: 35,
+                        title: "School Principal",
+                        company: "Global Academy",
+                        location: "Bangalore",
+                        type: "Full-time",
+                        experience: "8-12 years",
+                        salary: "₹15-25 LPA",
+                        description: "Lead our educational institution and ensure academic excellence and operational efficiency.",
+                        skills: ["School Administration", "Leadership", "Curriculum Planning", "Staff Management"],
+                        category: "education"
+                    },
+                    {
+                        id: 36,
+                        title: "Special Education Teacher",
+                        company: "Inclusive Learning School",
+                        location: "Mumbai",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹6-10 LPA",
+                        description: "Work with students with special needs and develop individualized education plans.",
+                        skills: ["Special Education", "Individualized Planning", "Behavior Management", "Therapy"],
+                        category: "education"
+                    },
+                    {
+                        id: 37,
+                        title: "Career Counselor",
+                        company: "Student Guidance Center",
+                        location: "Hyderabad",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹7-12 LPA",
+                        description: "Guide students in career planning, college admissions, and professional development.",
+                        skills: ["Career Counseling", "Assessment", "Guidance", "Student Development"],
+                        category: "education"
+                    },
+                    {
+                        id: 38,
+                        title: "Online Tutor",
+                        company: "EduTech Solutions",
+                        location: "Remote",
+                        type: "Part-time",
+                        experience: "2-4 years",
+                        salary: "₹4-8 LPA",
+                        description: "Provide online tutoring services to students across various subjects and grade levels.",
+                        skills: ["Online Teaching", "Subject Expertise", "Communication", "Digital Tools"],
+                        category: "education"
+                    },
+                    {
+                        id: 39,
+                        title: "Librarian",
+                        company: "City Central Library",
+                        location: "Kolkata",
+                        type: "Full-time",
+                        experience: "3-5 years",
+                        salary: "₹6-9 LPA",
+                        description: "Manage library resources and assist patrons in accessing information and educational materials.",
+                        skills: ["Library Management", "Cataloging", "Research Assistance", "Information Systems"],
+                        category: "education"
+                    },
+                    {
+                        id: 40,
+                        title: "Education Coordinator",
+                        company: "Learning Foundation",
+                        location: "Chennai",
+                        type: "Full-time",
+                        experience: "4-7 years",
+                        salary: "₹9-15 LPA",
+                        description: "Coordinate educational programs and ensure quality implementation across multiple centers.",
+                        skills: ["Program Coordination", "Education Planning", "Quality Assurance", "Training"],
+                        category: "education"
+                    },
+                    {
+                        id: 41,
+                        title: "Montessori Teacher",
+                        company: "Little Explorers",
+                        location: "Gurgaon",
+                        type: "Full-time",
+                        experience: "2-4 years",
+                        salary: "₹5-8 LPA",
+                        description: "Implement Montessori teaching methods for early childhood education and development.",
+                        skills: ["Montessori Methods", "Early Childhood Education", "Child Development", "Creative Teaching"],
+                        category: "education"
+                    },
+                    {
+                        id: 42,
+                        title: "Sports Coach",
+                        company: "Sports Academy",
+                        location: "Pune",
+                        type: "Full-time",
+                        experience: "3-6 years",
+                        salary: "₹6-10 LPA",
+                        description: "Train students in various sports and promote physical fitness and sportsmanship.",
+                        skills: ["Sports Training", "Fitness", "Team Management", "Coaching"],
+                        category: "education"
+                    }
+                ];
+            }
+
+            createDemoUsers() {
+                this.users = [
+                    {
+                        id: 1,
+                        name: "Rahul Sharma",
+                        email: "rahul@example.com",
+                        password: "password123",
+                        user_type: "jobseeker"
+                    },
+                    {
+                        id: 2,
+                        name: "Priya Mehta",
+                        email: "priya@example.com",
+                        password: "password123",
+                        user_type: "employer"
+                    }
+                ];
+                this.saveUsers();
+            }
+
+            saveUsers() {
+                localStorage.setItem('jobsearch_users', JSON.stringify(this.users));
+            }
+
+            saveJobs() {
+                localStorage.setItem('jobsearch_jobs', JSON.stringify(this.jobs));
+            }
+
+            saveApplications() {
+                localStorage.setItem('jobsearch_applications', JSON.stringify(this.applications));
+            }
+
+            saveCurrentUser() {
+                localStorage.setItem('jobsearch_currentUser', JSON.stringify(this.currentUser));
+            }
+
+            // Auth methods
+            register(userData) {
+                return new Promise((resolve, reject) => {
+                    const existingUser = this.users.find(u => u.email === userData.email);
+                    if (existingUser) {
+                        reject('User already exists with this email');
+                        return;
+                    }
+
+                    const newUser = {
+                        id: Date.now(),
+                        ...userData
+                    };
+
+                    this.users.push(newUser);
+                    this.saveUsers();
+
+                    // Auto login after registration
+                    this.currentUser = { ...newUser };
+                    delete this.currentUser.password;
+                    this.saveCurrentUser();
+
+                    resolve('Registration successful');
+                });
+            }
+
+            login(email, password) {
+                return new Promise((resolve, reject) => {
+                    const user = this.users.find(u => u.email === email && u.password === password);
+                    
+                    if (!user) {
+                        reject('Invalid email or password');
+                        return;
+                    }
+
+                    this.currentUser = { ...user };
+                    delete this.currentUser.password;
+                    this.saveCurrentUser();
+
+                    resolve('Login successful');
+                });
+            }
+
+            logout() {
+                this.currentUser = null;
+                localStorage.removeItem('jobsearch_currentUser');
+                return Promise.resolve('Logged out successfully');
+            }
+
+            // Job methods
+            getJobs(filters = {}) {
+                return new Promise((resolve) => {
+                    let filteredJobs = [...this.jobs];
+
+                    if (filters.keywords) {
+                        const keyword = filters.keywords.toLowerCase();
+                        filteredJobs = filteredJobs.filter(job => 
+                            job.title.toLowerCase().includes(keyword) || 
+                            job.company.toLowerCase().includes(keyword) ||
+                            job.description.toLowerCase().includes(keyword) ||
+                            job.skills.some(skill => skill.toLowerCase().includes(keyword))
+                        );
+                    }
+
+                    if (filters.location) {
+                        filteredJobs = filteredJobs.filter(job => 
+                            job.location.toLowerCase().includes(filters.location.toLowerCase())
+                        );
+                    }
+
+                    if (filters.category) {
+                        filteredJobs = filteredJobs.filter(job => job.category === filters.category);
+                    }
+
+                    resolve(filteredJobs);
+                });
+            }
+
+            applyForJob(jobId) {
+                return new Promise((resolve, reject) => {
+                    if (!this.currentUser) {
+                        reject('Please login to apply for jobs');
+                        return;
+                    }
+
+                    if (this.currentUser.user_type !== 'jobseeker') {
+                        reject('Only job seekers can apply for jobs');
+                        return;
+                    }
+
+                    // Check if already applied
+                    const existingApplication = this.applications.find(
+                        app => app.job_id === jobId && app.jobseeker_id === this.currentUser.id
+                    );
+
+                    if (existingApplication) {
+                        reject('You have already applied for this job');
+                        return;
+                    }
+
+                    const newApplication = {
+                        id: Date.now(),
+                        job_id: jobId,
+                        jobseeker_id: this.currentUser.id,
+                        status: 'pending',
+                        applied_at: new Date().toISOString()
+                    };
+
+                    this.applications.push(newApplication);
+                    this.saveApplications();
+
+                    resolve('Application submitted successfully');
+                });
+            }
+        }
+
+        // Initialize App
+        const jobSearchApp = new JobSearchApp();
+
+        // DOM Elements
+        const jobListings = document.getElementById('jobListings');
+        const loadMoreJobsBtn = document.getElementById('loadMoreJobs');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const authButtons = document.getElementById('authButtons');
+        const userInfo = document.getElementById('userInfo');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const searchForm = document.getElementById('searchForm');
+
+        // Initialize
+        function init() {
+            renderJobs();
+            checkAuthStatus();
+            setupEventListeners();
+        }
+
+        // Check authentication status
+        function checkAuthStatus() {
+            if (jobSearchApp.currentUser) {
+                showUserInterface();
+            } else {
+                showAuthInterface();
+            }
+        }
+
+        function showUserInterface() {
+            authButtons.style.display = 'none';
+            userInfo.style.display = 'flex';
+            userName.textContent = jobSearchApp.currentUser.name;
+            userAvatar.textContent = jobSearchApp.currentUser.name.charAt(0).toUpperCase();
+        }
+
+        function showAuthInterface() {
+            authButtons.style.display = 'flex';
+            userInfo.style.display = 'none';
+        }
+
+        // Render jobs
+        function renderJobs(filters = {}) {
+            jobSearchApp.getJobs(filters).then(jobs => {
+                jobListings.innerHTML = '';
+
+                if (jobs.length === 0) {
+                    jobListings.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No jobs found matching your criteria.</p>';
+                    return;
+                }
+
+                jobs.forEach(job => {
+                    const jobCard = document.createElement('div');
+                    jobCard.className = 'job-card';
+                    jobCard.innerHTML = `
+                        <div class="job-header">
+                            <h3 class="job-title">${job.title}</h3>
+                            <div class="company">
+                                <i class="fas fa-building"></i>
+                                <span>${job.company}</span>
+                            </div>
+                            <div class="job-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>${job.location}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>${job.type}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-briefcase"></i>
+                                    <span>${job.experience}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="job-body">
+                            <p class="job-description">${job.description}</p>
+                            <div class="job-skills">
+                                ${job.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="job-footer">
+                            <div class="salary">${job.salary}</div>
+                            <button class="btn btn-primary apply-btn" data-id="${job.id}">Apply Now</button>
+                        </div>
+                    `;
+                    jobListings.appendChild(jobCard);
+                });
+
+                // Add event listeners to apply buttons
+                document.querySelectorAll('.apply-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const jobId = parseInt(this.getAttribute('data-id'));
+                        handleJobApplication(jobId);
+                    });
+                });
+            });
+        }
+
+        // Handle job application
+        function handleJobApplication(jobId) {
+            jobSearchApp.applyForJob(jobId)
+                .then(message => {
+                    showAlert(message, 'success');
+                    // Update button state
+                    const applyBtn = document.querySelector(`.apply-btn[data-id="${jobId}"]`);
+                    if (applyBtn) {
+                        applyBtn.textContent = 'Applied';
+                        applyBtn.disabled = true;
+                        applyBtn.classList.remove('btn-primary');
+                        applyBtn.classList.add('btn-success');
+                    }
+                })
+                .catch(error => {
+                    showAlert(error, 'error');
+                });
+        }
+
+        // Show alert
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Modal buttons
+            loginBtn.addEventListener('click', () => loginModal.style.display = 'flex');
+            registerBtn.addEventListener('click', () => registerModal.style.display = 'flex');
+
+            // Close modals
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    loginModal.style.display = 'none';
+                    registerModal.style.display = 'none';
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === loginModal) loginModal.style.display = 'none';
+                if (event.target === registerModal) registerModal.style.display = 'none';
+            });
+
+            // Form submissions
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                jobSearchApp.login(email, password)
+                    .then(message => {
+                        showAlert(message, 'success');
+                        loginModal.style.display = 'none';
+                        loginForm.reset();
+                        checkAuthStatus();
+                    })
+                    .catch(error => {
+                        document.getElementById('loginAlert').innerHTML = `
+                            <div class="alert alert-error">${error}</div>
+                        `;
+                    });
+            });
+
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('registerName').value;
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const userType = document.getElementById('registerUserType').value;
+
+                jobSearchApp.register({ name, email, password, user_type: userType })
+                    .then(message => {
+                        showAlert(message, 'success');
+                        registerModal.style.display = 'none';
+                        registerForm.reset();
+                        checkAuthStatus();
+                    })
+                    .catch(error => {
+                        document.getElementById('registerAlert').innerHTML = `
+                            <div class="alert alert-error">${error}</div>
+                        `;
+                    });
+            });
+
+            // Search form
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const filters = {
+                    keywords: document.getElementById('keywords').value,
+                    location: document.getElementById('location').value,
+                    category: document.getElementById('category').value
+                };
+                renderJobs(filters);
+            });
+
+            // Logout
+            logoutBtn.addEventListener('click', () => {
+                jobSearchApp.logout().then(message => {
+                    showAlert(message, 'success');
+                    checkAuthStatus();
+                });
+            });
+
+            // Load more jobs
+            loadMoreJobsBtn.addEventListener('click', () => {
+                // In a real app, this would load more jobs from the server
+                showAlert('Loading more job opportunities...', 'success');
+            });
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
